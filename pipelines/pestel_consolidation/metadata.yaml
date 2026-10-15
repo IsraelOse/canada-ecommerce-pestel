@@ -1,0 +1,38 @@
+name: pestel_consolidation
+description: >
+  Consolidates eight public macro indicators (Statistics Canada, World Bank/ITU,
+  Conference Board) into one monthly PESTEL dataset for Canadian e-commerce,
+  with documented OLS and forward-fill imputation.
+
+execution_order:
+  - block: data_loaders.excel_loader.load_all_sources
+    type: data_loader
+  - block: transformers.consolidate.merge_monthly
+    type: transformer
+  - block: transformers.consolidate.trim_and_add_keys
+    type: transformer
+  - block: transformers.imputation.impute_hfce_ols
+    type: transformer
+  - block: transformers.consolidate.build_annual
+    type: transformer
+  - block: transformers.imputation.impute_annual_ffill
+    type: transformer
+  - block: transformers.consolidate.join_annual_to_monthly
+    type: transformer
+  - block: transformers.imputation.add_imputation_flags
+    type: transformer
+  - block: transformers.validation.validate
+    type: transformer
+  - block: data_exporters.local_exporter.export_csv
+    type: data_exporter
+  - block: data_exporters.local_exporter.export_workbook
+    type: data_exporter
+
+variables:
+  end_year: 2025
+  hfce_imputation: ols_trend_plus_month_dummies
+  annual_imputation: forward_fill
+
+schedule:
+  interval: "0 6 1 * *"   # 06:00 on the 1st of each month
+  enabled: false
