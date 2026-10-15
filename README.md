@@ -21,4 +21,4 @@ A data-driven **PESTEL** (Political, Economic, Social, Technological, Environmen
 ## Tech
 Python · pandas · openpyxl
 
-> **Academic group project (Group 6)**, DAMO-501 Data Analytics Case Study. Shared coursework; teammate contributions acknowledged. _Add teammate names here._
+*DAMO-501 Data Analytics Case Study, Master of Data Analytics, University of Niagara Falls Canada.*
